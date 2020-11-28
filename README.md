@@ -2,24 +2,31 @@
 Cortex-M4 based Musical Instrument Digital Interface project
 
 Authors:
-Mirosław Wiącek - @Soberat
-
+Mirosław Wiącek - @Soberat\
 Łukasz Kowalczyk
+
+Any updates to this project will be located in a separate file (to be created later)
 
 ![alt text](https://www.pjrc.com/teensy/teensy32_front_small.jpg "Teensy 3.2")
 
 This project is based around a Teensy 3.2 - a Cortex-M4 equipped board in a very small form factor. It has multiple features, including:
-- native USB MIDI support including up to 16 virtual cables (essentially 16 virtual devices),
+- native USB MIDI support including up to 16 virtual cables (essentially 16 virtual devices),\
+- a hardware I2S interface for 2-channel USB audio,\
+- 64K of RAM allowing us to easily drive 2 OLED I2C displays,\
+- a clock as fast as 120MHz.\
 
-- a hardware I2S interface for 2-channel USB audio
+All of those features and more allow us to create a high performance, low latency MIDI controller without compromises. It will be used with Traktor Pro 3, a DJing program described in [Traktor Pro Overview.md](https://github.com/Soberat/MIDI-Controller/blob/main/Traktor%20Pro%20Overview.md)
 
-- 64K of RAM allowing us to drive 2 OLED I2C displays,
+We'll be using the [Control Surface library](https://github.com/tttapa/Control-Surface) licensed under [GPL-3.0 License](https://github.com/tttapa/Control-Surface/blob/master/LICENSE) because of its' capabilities related to reading System Exclusive Messages - a protocol specific message carrying information different than typilcal MIDI message - in our case it will carry information about music loaded in the given deck like artist, title, time, beats per minute (BPM).
 
-- a clock as fast as 120MHz.
+## Roadmap:
+- [ ] Implement basic input functionality - potentiometers, buttons and rotary encoders
+- [ ] Add WS2812 LEDs as outputs in,
+- [ ] Implement display functionality,
+- [ ] Debug protocol described in [MIDI Protocol.md](https://github.com/Soberat/MIDI-Controller/blob/main/MIDI%20Protocol.md)
+- [ ] Verify full project functionality
 
-All of those features and more allow us to create a high performance, low latency MIDI controller without compromises.
-
-Other parts used in the project:
+## Parts used:
 
 - 2 SSD1306 OLED displays:
 ![alt text](https://ae01.alicdn.com/kf/H0a2597f7134d42f89d20ad3b2fd67cafQ.jpg "SSD1306")
