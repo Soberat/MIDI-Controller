@@ -5,11 +5,11 @@ Traktor Pro is a program created by Native Instruments used by DJs all over the 
 ![Imgur](https://i.imgur.com/bmm9jOr.png)
 
 Any DJ program is composed of 3 main things:
-- decks, usually two - those are parts where you load the music you're gonna play and manipulate it,
+- decks, usually two - those are parts where you load the music you're gonna play and manipulate it,\
 ![Imgur](https://i.imgur.com/zd13WVE.png)
-- mixer - controls things like filters, gain and volume,
+- mixer - controls things like filters, gain and volume,\
 ![Imgur](https://i.imgur.com/qYOPaqV.png)
-- browser - used to browse your music collection.
+- browser - used to browse your music collection.\
 ![Imgur](https://i.imgur.com/Rkbyd2v.png)
 
 With a MIDI controller you can control all those things without laying a finger on your laptop.
