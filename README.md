@@ -10,10 +10,10 @@ Any updates to this project will be located in a separate file (to be created la
 ![alt text](https://www.pjrc.com/teensy/teensy32_front_small.jpg "Teensy 3.2")
 
 This project is based around a Teensy 3.2 - a Cortex-M4 equipped board in a very small form factor. It has multiple features, including:
-- native USB MIDI support including up to 16 virtual cables (essentially 16 virtual devices),\
-- a hardware I2S interface for 2-channel USB audio,\
-- 64K of RAM allowing us to easily drive 2 OLED I2C displays,\
-- a clock as fast as 120MHz.\
+- native USB MIDI support including up to 16 virtual cables (essentially 16 virtual devices),
+- a hardware I2S interface for 2-channel USB audio,
+- 64K of RAM allowing us to easily drive 2 OLED I2C displays,
+- a clock as fast as 120MHz.
 
 All of those features and more allow us to create a high performance, low latency MIDI controller without compromises. It will be used with Traktor Pro 3, a DJing program described in [Traktor Pro Overview.md](https://github.com/Soberat/MIDI-Controller/blob/main/Traktor%20Pro%20Overview.md)
 
