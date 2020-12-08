@@ -2,8 +2,8 @@
 Cortex-M4 based Musical Instrument Digital Interface project
 
 Authors:
-Mirosław Wiącek - @Soberat\
-Łukasz Kowalczyk
+Mirosław Wiącek - [@Soberat](https://github.com/Soberat)\
+Łukasz Kowalczyk - [@lucas6smith](https://github.com/lucas6smith)
 
 Any updates to this project will be located in a separate file (to be created later)
 
