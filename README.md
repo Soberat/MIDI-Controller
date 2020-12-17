@@ -5,7 +5,7 @@ Authors:
 Mirosław Wiącek - [@Soberat](https://github.com/Soberat)\
 Łukasz Kowalczyk - [@lucas6smith](https://github.com/lucas6smith)
 
-Any updates to this project will be located in a separate file (to be created later)
+Any updates to this project will be located in Project Updates.md file
 
 ![alt text](https://www.pjrc.com/teensy/teensy32_front_small.jpg "Teensy 3.2")
 
@@ -20,7 +20,7 @@ All of those features and more allow us to create a high performance, low latenc
 We'll be using the [Control Surface library](https://github.com/tttapa/Control-Surface) licensed under [GPL-3.0 License](https://github.com/tttapa/Control-Surface/blob/master/LICENSE) because of its' capabilities related to reading System Exclusive Messages - a protocol specific message carrying information different than typilcal MIDI message - in our case it will carry information about music loaded in the given deck like artist, title, time, beats per minute (BPM).
 
 ## Roadmap:
-- [ ] Implement basic input functionality - potentiometers, buttons and rotary encoders
+- [x] Implement basic input functionality - potentiometers, buttons and rotary encoders
 - [ ] Add WS2812 LEDs as outputs in,
 - [ ] Implement display functionality,
 - [ ] Debug protocol described in [MIDI Protocol.md](https://github.com/Soberat/MIDI-Controller/blob/main/MIDI%20Protocol.md)
