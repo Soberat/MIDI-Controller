@@ -1,3 +1,15 @@
+# Week 2 & 3
+
+Over the holiday period we managed to achieve full LED functionality. Here's a quick showcase:
+![](https://github.com/Soberat/MIDI-Controller/blob/main/Images/leds.gif)
+
+What we're seeing here are VU meters - their function is to visualise whether the sound level of the output is correct (in reference to a specific volume level that professional audio equipment uses). Green LEDs signal everything is good, yellow is a bit too much and red is critically bad.
+
+Following an example from the Control Surface library we create a range handler. It watches a specific range of MIDI notes and is it is called when a note in that range is received. This means all of our MIDI outputs from Traktor have to be in a sequence (currently it is 0 - 19). 
+We receive the information about the volume levels straight from Traktor as a value in range 0-127 and we can display it linearly to visualise the levels.
+
+There is also a phase meter implemented, which shows how desynchornised tracks are. Other LEDs notify whether a track is playing on a given deck and another one is a red warning LED showing that a track is about to end.
+
 # Week 1
 
 During the first week of work on controller we decided to start with the basics - our output elements, such as:
