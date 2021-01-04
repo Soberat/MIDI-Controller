@@ -17,11 +17,11 @@ This project is based around a Teensy 3.2 - a Cortex-M4 equipped board in a very
 
 All of those features and more allow us to create a high performance, low latency MIDI controller without compromises. It will be used with Traktor Pro 3, a DJing program described in [Traktor Pro Overview.md](https://github.com/Soberat/MIDI-Controller/blob/main/Traktor%20Pro%20Overview.md)
 
-We'll be using the [Control Surface library](https://github.com/tttapa/Control-Surface) licensed under [GPL-3.0 License](https://github.com/tttapa/Control-Surface/blob/master/LICENSE) because of its' capabilities related to reading System Exclusive Messages - a protocol specific message carrying information different than typilcal MIDI message - in our case it will carry information about music loaded in the given deck like artist, title, time, beats per minute (BPM).
+We'll be using the [Control Surface library](https://github.com/tttapa/Control-Surface) licensed under [GPL-3.0 License](https://github.com/tttapa/Control-Surface/blob/master/LICENSE) because of its' capabilities related to reading System Exclusive Messages - a protocol specific message carrying information different than typical MIDI message - in our case it will carry information about music loaded in the given deck like artist, title, time, beats per minute (BPM).
 
 ## Roadmap:
 - [x] Implement basic input functionality - potentiometers, buttons and rotary encoders
-- [ ] Add WS2812 LEDs as outputs in,
+- [x] Add WS2812 LEDs as outputs,
 - [ ] Implement display functionality,
 - [ ] Debug protocol described in [MIDI Protocol.md](https://github.com/Soberat/MIDI-Controller/blob/main/MIDI%20Protocol.md)
 - [ ] Verify full project functionality
