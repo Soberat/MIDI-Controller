@@ -1,3 +1,13 @@
+# Week 4
+After a few weeks worth of tedious debugging we have completed probably the most important part of the project - debugging of the Traktor Numark Mixdeck proprietary protocol.
+It is important because this information we're acquiring here is not available as an output option to any custom MIDI controller like ours. This makes our project a truly unique one!
+Here we can observe how changes in the program are printed out in the serial monitor below:
+![](https://github.com/Soberat/MIDI-Controller/blob/main/Images/numark.gif)
+
+We can see the most important information being updated message-by-message (although we display debug information only every 1 second to reduce clutter). Loading a track into a deck will notify the deck, and it will start scanning the System Exclussive messages for data. Other data is sent over typical MIDI messages, however some are coded, like BPM or tempo information. 
+
+Sometime later this week we will be applying all of this to display information on our SSD1306 displays.
+
 # Week 2 & 3
 
 Over the holiday period we managed to achieve full LED functionality. Here's a quick showcase:
