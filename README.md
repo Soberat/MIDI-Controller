@@ -20,10 +20,11 @@ All of those features and more allow us to create a high performance, low latenc
 We'll be using the [Control Surface library](https://github.com/tttapa/Control-Surface) licensed under [GPL-3.0 License](https://github.com/tttapa/Control-Surface/blob/master/LICENSE) because of its' capabilities related to reading System Exclusive Messages - a protocol specific message carrying information different than typical MIDI message - in our case it will carry information about music loaded in the given deck like artist, title, time, beats per minute (BPM).
 
 ## Roadmap:
-- [x] Implement basic input functionality - potentiometers, buttons and rotary encoders
+- [x] Implement basic input functionality - potentiometers, buttons and rotary encoders,
 - [x] Add WS2812 LEDs as outputs,
 - [ ] Implement display functionality,
-- [ ] Debug protocol described in [MIDI Protocol.md](https://github.com/Soberat/MIDI-Controller/blob/main/MIDI%20Protocol.md)
+- [x] Debug protocol described in [MIDI Protocol.md](https://github.com/Soberat/MIDI-Controller/blob/main/MIDI%20Protocol.md)
+- [ ] Implement USB audio interface functionality using I2S,
 - [ ] Verify full project functionality
 
 ## Parts used:
