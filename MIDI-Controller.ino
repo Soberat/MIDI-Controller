@@ -1,7 +1,7 @@
 #include <FastLED.h>
 #include <Encoder.h>
 #include <Control_Surface.h>
-
+#include "TrackDataHandler.cpp"
 
 // The data pin with the strip connected.
 constexpr uint8_t ledpin = 0;
@@ -10,6 +10,9 @@ constexpr uint8_t numleds = 44;
 // How many CCs are sent to control LEDs
 constexpr uint8_t ledCallbacks = 20;
 
+TrackDataHandler deckA(0x02, 0xB0);
+TrackDataHandler deckB(0x22, 0xB1);
+
 CRGB colorOff = CRGB(0, 0, 0);
 CRGB vuColors[8] = {CRGB::Green, CRGB::Green, CRGB::Green, CRGB::Green, CRGB::Green, CRGB::Yellow, CRGB::Yellow, CRGB::Red};
 
@@ -17,6 +20,9 @@ CRGB vuColors[8] = {CRGB::Green, CRGB::Green, CRGB::Green, CRGB::Green, CRGB::Gr
 //This value is arbitarily chosen to match Traktor Pro's flashing interval
 Timer<millis> timerEndA = 790;
 Timer<millis> timerEndB = 790;
+
+//Timer for serial debugging
+Timer<millis> second = 1000;
 
 //Variables containing information if Track End Warning is active for a deck
 bool trackEndA = false;
@@ -165,16 +171,51 @@ void trackEndLEDS() {
     }
 }
 
+
+bool sysExMessageCallback(SysExMessage se) {
+    //Making sure the data is coming from Traktor and that length corresponds to title data message length (6 ascii + 16 id)
+    if (se.data[0] == 0xF0 && se.data[se.length-1] == 0xF7 && se.length == 22) {
+        if (se.CN == 1) deckA.receive(se);  //We assign different virtual devices to both decks, so based on that we can tell which deck should recieve a message
+        else if (se.CN == 2) deckB.receive(se);
+    }
+    return false;
+}
+
+bool channelMessageCallback(ChannelMessage cm) {
+    if (cm.data1 >= 32 && cm.data1 <= 77) {
+        if (cm.CN == 1) {
+            deckA.receive(cm);
+        } 
+        else if (cm.CN == 2) {
+            deckB.receive(cm);
+        }
+    }
+    return false;
+}
+
 void setup() {
+    //We set our custom callbacks to receive special messages
+    Control_Surface.setMIDIInputCallbacks(channelMessageCallback, sysExMessageCallback, nullptr);
     Control_Surface.begin();
 
     FastLED.addLeds<NEOPIXEL, ledpin>(leds.data, numleds);
     FastLED.setCorrection(TypicalPixelString);
     FastLED.setBrightness(32);
+
+    //Begin timer but not immediately
+    //Note: this function may not be available in Control_Surface library and should be added from a newer version of Adruino Helpers
+    second.beginNextPeriod();
 }
 
 void loop() {
     Control_Surface.loop();
     trackEndLEDS();
+    
+    //Print debug data to make it more readable in a serial monitor 
+    if (second) {
+        Serial << dec << "Deck A: Title: " << deckA.getTitle().replace("\n", " - ") << "  " << "BPM: " << deckA.getBPM() << "  " << "Time: " << (deckA.getTime().minutes < 10 ? "0" : "") << deckA.getTime().minutes << ":" << (deckA.getTime().seconds < 10 ? "0" : "") << deckA.getTime().seconds << "  " << "Tempo d: " << deckA.getTempo() << endl;
+        Serial << dec << "Deck B: Title: " << deckB.getTitle().replace("\n", " - ") << "  " << "BPM: " << deckB.getBPM() << "  " << "Time: " << (deckB.getTime().minutes < 10 ? "0" : "") << deckB.getTime().minutes << ":" << (deckB.getTime().seconds < 10 ? "0" : "") << deckB.getTime().seconds << "  " << "Tempo d: " << deckB.getTempo() << endl << endl;
+    }
+    
     FastLED.show();
 }
