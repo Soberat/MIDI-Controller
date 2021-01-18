@@ -1,3 +1,11 @@
+# Week 5
+We applied what we achieved earlier and now we have our track information on our displays :)
+
+[Youtube link since gif was too large (sound not available due to copyright reasons)](https://www.youtube.com/watch?v=enf4cnDGF1E&feature=youtu.be)
+
+It was quite easy to do thanks to Adafruit display libraries, and our I2C multiplexer requires only initialization and a simple transaction to work properly. Also, as simple as it may seem, consistent and elegant line breaking is really hard to implement - [here's](http://defoe.sourceforge.net/folio/knuth-plass.html) a nice writeup on Knuth-Plass line breaking algorithm that we would like to implement in the project at some point.
+
+
 # Week 4
 After a few weeks worth of tedious debugging we have completed probably the most important part of the project - debugging of the Traktor Numark Mixdeck proprietary protocol.
 It is important because this information we're acquiring here is not available as an output option to any custom MIDI controller like ours. This makes our project a truly unique one!
