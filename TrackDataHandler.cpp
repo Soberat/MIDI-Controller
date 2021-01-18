@@ -255,10 +255,10 @@ class TrackDataHandler {
             return (bpmOverflows*128 + bpmRaw)/10.0;
         }
         
-		//An instance always knows what is happening with the title, so this function returns either the title or information about it.
+		    //An instance always knows what is happening with the title, so this function returns either the title or information about it.
         String getTitle() {
             //if (titleDiscovered) return "Fetching title...";
-            if (titleIncoming ||titleDiscovered) return title;
+            if (titleIncoming || titleDiscovered) return title;
             if (newLoaded) return "New track loaded...";
             return "";
         }

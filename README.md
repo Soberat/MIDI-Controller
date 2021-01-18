@@ -22,7 +22,7 @@ We'll be using the [Control Surface library](https://github.com/tttapa/Control-S
 ## Roadmap:
 - [x] Implement basic input functionality - potentiometers, buttons and rotary encoders,
 - [x] Add WS2812 LEDs as outputs,
-- [ ] Implement display functionality,
+- [x] Implement display functionality,
 - [x] Debug protocol described in [MIDI Protocol.md](https://github.com/Soberat/MIDI-Controller/blob/main/MIDI%20Protocol.md)
 - [ ] Implement USB audio interface functionality using I2S,
 - [ ] Verify full project functionality

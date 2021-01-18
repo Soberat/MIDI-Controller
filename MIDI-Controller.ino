@@ -1,5 +1,9 @@
 #include <FastLED.h>
+#include <Wire.h>
+#include <SerialFlash.h>
 #include <Encoder.h>
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_GFX.h>
 #include <Control_Surface.h>
 #include "TrackDataHandler.cpp"
 
@@ -9,6 +13,10 @@ constexpr uint8_t ledpin = 0;
 constexpr uint8_t numleds = 44;
 // How many CCs are sent to control LEDs
 constexpr uint8_t ledCallbacks = 20;
+
+//Declarations of displays
+Adafruit_SSD1306 displayA(128, 64, &Wire, 4);
+Adafruit_SSD1306 displayB(128, 64, &Wire, 4);
 
 TrackDataHandler deckA(0x02, 0xB0);
 TrackDataHandler deckB(0x22, 0xB1);
@@ -155,6 +163,13 @@ CustomNoteValueLED<ledCallbacks> midiled = {ledpin, leds.data};
 
 USBMIDI_Interface midi;
 
+//Function that changes the channel of TCA9548A I2C multiplexer
+void channel(uint8_t bus) {
+    Wire.beginTransmission(0x70);
+    Wire.write(1 << bus);
+    Wire.endTransmission();
+}
+
 void trackEndLEDS() {
     if (trackEndB && timerEndB) {
         if (leds[35] == colorOff) leds[35] = CRGB::Red;
@@ -193,6 +208,49 @@ bool channelMessageCallback(ChannelMessage cm) {
     return false;
 }
 
+void displays() {
+    //Since drawing a single screen takes around 30 milliseconds we draw it again only after we know new information is available via newTimeAvailable, newTitleAvailable and newBPMAvailable functions
+    //It's fine with 1 display, but the lag is definitely noticable in comparison to no display
+    //With 2 displays the delay is unacceptable
+    if (deckA.newTimeAvailable() || deckA.newTitleAvailable() || deckA.newBPMAvailable()) {
+        channel(0);
+        displayA.clearDisplay();
+        displayA.setCursor(0,0);
+        displayA.println("Deck A");
+
+        displayA.setCursor(48, 0);
+        displayA.print(deckA.getBPM());
+        
+        displayA.setCursor(96, 0);
+        displayA.println(deckA.getShortTimeString());
+    
+        displayA.drawLine(0, 9, 127, 9, SSD1306_WHITE);
+    
+        displayA.setCursor(0, 12);
+        displayA.println(deckA.getTitle());
+        displayA.display();
+    }
+
+    if (deckB.newTimeAvailable() || deckB.newTitleAvailable() || deckB.newBPMAvailable()) {
+        channel(7);
+        displayB.clearDisplay();
+        displayB.setCursor(0,0);
+        displayB.println("Deck B");
+
+        displayB.setCursor(48, 0);
+        displayB.print(deckB.getBPM());
+    
+        displayB.setCursor(96, 0);
+        displayB.println(deckB.getShortTimeString());
+    
+        displayB.drawLine(0, 9, 127, 9, SSD1306_WHITE);
+    
+        displayB.setCursor(0, 12);
+        displayB.println(deckB.getTitle());
+        displayB.display();
+    }
+}
+
 void setup() {
     //We set our custom callbacks to receive special messages
     Control_Surface.setMIDIInputCallbacks(channelMessageCallback, sysExMessageCallback, nullptr);
@@ -202,6 +260,23 @@ void setup() {
     FastLED.setCorrection(TypicalPixelString);
     FastLED.setBrightness(32);
 
+    //Neccesary for I2C multiplexer to work correctly
+    Wire.begin();
+
+    //Initialize displays, clear their buffers and display them (essentially clears the screen)
+    channel(0);
+    // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+    if(!displayA.begin(SSD1306_SWITCHCAPVCC, 0x3C)) Serial.println(F("SSD1306 deck A allocation failed"));
+    displayA.setTextColor(SSD1306_WHITE);    
+    displayA.clearDisplay();
+    displayA.display();
+    
+    channel(7);
+    if(!displayB.begin(SSD1306_SWITCHCAPVCC, 0x3C)) Serial.println(F("SSD1306 deck B allocation failed"));
+    displayB.setTextColor(SSD1306_WHITE);
+    displayB.clearDisplay();
+    displayB.display();
+    
     //Begin timer but not immediately
     //Note: this function may not be available in Control_Surface library and should be added from a newer version of Adruino Helpers
     second.beginNextPeriod();
@@ -210,6 +285,7 @@ void setup() {
 void loop() {
     Control_Surface.loop();
     trackEndLEDS();
+    displays();
     
     //Print debug data to make it more readable in a serial monitor 
     if (second) {
