@@ -7,6 +7,11 @@
 #include <Control_Surface.h>
 #include "TrackDataHandler.cpp"
 
+#define AUDIO
+#ifdef AUDIO
+#include <Audio.h>
+#endif
+
 // The data pin with the strip connected.
 constexpr uint8_t ledpin = 0;
 // Total number of leds connected to FastLED
@@ -20,6 +25,14 @@ Adafruit_SSD1306 displayB(128, 64, &Wire, 4);
 
 TrackDataHandler deckA(0x02, 0xB0);
 TrackDataHandler deckB(0x22, 0xB1);
+
+#ifdef AUDIO
+//Teensy Audio objects and connections
+AudioInputUSB            usb1;
+AudioOutputI2S           i2s1;
+AudioConnection          patchCord1(usb1, 0, i2s1, 0);
+AudioConnection          patchCord2(usb1, 1, i2s1, 1);
+#endif
 
 CRGB colorOff = CRGB(0, 0, 0);
 CRGB vuColors[8] = {CRGB::Green, CRGB::Green, CRGB::Green, CRGB::Green, CRGB::Green, CRGB::Yellow, CRGB::Yellow, CRGB::Red};
@@ -252,6 +265,11 @@ void displays() {
 }
 
 void setup() {
+
+    #ifdef AUDIO
+    AudioMemory(8);
+    #endif
+    
     //We set our custom callbacks to receive special messages
     Control_Surface.setMIDIInputCallbacks(channelMessageCallback, sysExMessageCallback, nullptr);
     Control_Surface.begin();
