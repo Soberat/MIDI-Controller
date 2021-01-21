@@ -7,7 +7,7 @@
 #include <Control_Surface.h>
 #include "TrackDataHandler.cpp"
 
-#define AUDIO
+// #define AUDIO
 #ifdef AUDIO
 #include <Audio.h>
 #endif
@@ -307,8 +307,7 @@ void loop() {
     
     //Print debug data to make it more readable in a serial monitor 
     if (second) {
-        Serial << dec << "Deck A: Title: " << deckA.getTitle().replace("\n", " - ") << "  " << "BPM: " << deckA.getBPM() << "  " << "Time: " << (deckA.getTime().minutes < 10 ? "0" : "") << deckA.getTime().minutes << ":" << (deckA.getTime().seconds < 10 ? "0" : "") << deckA.getTime().seconds << "  " << "Tempo d: " << deckA.getTempo() << endl;
-        Serial << dec << "Deck B: Title: " << deckB.getTitle().replace("\n", " - ") << "  " << "BPM: " << deckB.getBPM() << "  " << "Time: " << (deckB.getTime().minutes < 10 ? "0" : "") << deckB.getTime().minutes << ":" << (deckB.getTime().seconds < 10 ? "0" : "") << deckB.getTime().seconds << "  " << "Tempo d: " << deckB.getTempo() << endl << endl;
+        Serial << deckA.debug() << deckB.debug();
     }
     
     FastLED.show();

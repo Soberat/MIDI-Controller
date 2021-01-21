@@ -46,65 +46,65 @@ class TrackDataHandler {
         
         TrackDataHandler(int sysExId, int cmId) {
                 this->sysExId = sysExId;
-    			      this->cmId = cmId;
+          this->cmId = cmId;
         }
-    	
-      	bool receive(ChannelMessage cm) {
-        		int header = cm.header & 0xF0;   
-        		switch (header) {
-          			case 0x90:    //Mackie Control Universal messages
-            				switch (cm.data1) {
-              					case 0x47:    //New track loaded
-                						this->notify();
-                						break;
-              					default:
-                						if (Serial) Serial << hex << cm.header << ' ' << cm.data1 << ' ' << cm.data2 << dec << "\t\t(" <<  MCU::getMCUNameFromNoteNumber(cm.data1)  << ")" << endl;
-                						break;
-            				}
-            				break;
-          			case 0xB0:    //Regular MIDI messages
-            				switch (cm.data1) {
-              					case 37:  
-                						segment = cm.data2;
-                						break;
-              					case 41:  
-                						time.minutes = cm.data2;
-                						break;
-              					case 42:
-                						time.seconds = cm.data2;
-                						break;
-              					case 43:
-                						time.milliseconds = cm.data2*10;
-                						break;
-              					case 44:
-                						bpmOverflows = cm.data2;
-                						break;
-              					case 45:
-                						if(cm.data2 > 100) {
-                							tempoOverflows = 128 - cm.data2;
-                							tempoSign = -1;
-                						} else {
-                							tempoOverflows = cm.data2;
-                							tempoSign = 1;
-                						}
-                						break;
-              					case 76:
-                						bpmRaw = cm.data2;
-                						break;
-              					case 77:
-                						tempoRaw = cm.data2;
-                						break;
-              					default:
-                						return false;
-                						break;
-            				}
-            				break;
-            		default:
-              	    return false;
-              			break;
-        		}
-        		return false;
-      	}
+      
+        bool receive(ChannelMessage cm) {
+            int header = cm.header & 0xF0;   
+            switch (header) {
+                case 0x90:    //Mackie Control Universal messages
+                    switch (cm.data1) {
+                        case 0x47:    //New track loaded
+                            this->notify();
+                            break;
+                        default:
+                            if (Serial) Serial << hex << cm.header << ' ' << cm.data1 << ' ' << cm.data2 << dec << "\t\t(" <<  MCU::getMCUNameFromNoteNumber(cm.data1)  << ")" << endl;
+                            break;
+                    }
+                    break;
+                case 0xB0:    //Regular MIDI messages
+                    switch (cm.data1) {
+                        case 37:  
+                            segment = cm.data2;
+                            break;
+                        case 41:  
+                            time.minutes = cm.data2;
+                            break;
+                        case 42:
+                            time.seconds = cm.data2;
+                            break;
+                        case 43:
+                            time.milliseconds = cm.data2*10;
+                            break;
+                        case 44:
+                            bpmOverflows = cm.data2;
+                            break;
+                        case 45:
+                            if(cm.data2 > 100) {
+                              tempoOverflows = 128 - cm.data2;
+                              tempoSign = -1;
+                            } else {
+                              tempoOverflows = cm.data2;
+                              tempoSign = 1;
+                            }
+                            break;
+                        case 76:
+                            bpmRaw = cm.data2;
+                            break;
+                        case 77:
+                            tempoRaw = cm.data2;
+                            break;
+                        default:
+                            return false;
+                            break;
+                    }
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+            return false;
+        }
 
         /*  
          *  Receive a SysEx message with title information and handle it
@@ -122,12 +122,12 @@ class TrackDataHandler {
              *  It could be more efficient by collecting characters from the start and then matching 2 parts together, but this is safe and isn't really slow. It depends on the title length and how lucky we are (Traktor starts sending the title from a random index).
              *  Title is given as a combination of artist and track name, as in "%artists - %name", so we are able to extract them if we need it.
              */
-			 
+       
             //If the title is already discovered, we don't need to do anything with the message, so we mark it as handled.
             if (titleDiscovered) return true;
 
             if (titleIncoming) {
-				//Print newly discovered character
+        //Print newly discovered character
                 //Serial << char(se.data[20]) << endl;
                 //count spaces in lookout for ending
                 if (se.data[20] == 0x20) spaceCounter++;
@@ -147,7 +147,7 @@ class TrackDataHandler {
                 title += char(se.data[20]);
                 return true;
             }
-			
+      
             //Listen for incoming sequences of 3/6 spaces on the last data byte of SysEx message
             if (se.data[20] == 0x20) spaceCounter++;
             else spaceCounter = 0;
@@ -239,7 +239,7 @@ class TrackDataHandler {
          * tempoSign - is the track slower than default or faster
          * tempoRaw - poorly named, because it is mostly the remainder of the tempo multiplied by 10 and divided by 128 (yes, 128, not 127 as we'd think)
          * tempoOverflows - how many times has tempoRaw overflowed
-		 *
+     *
          * So the final formula is 128*overflows + raw, which we divide by 10 to get the percentage
          * 
          * It is not exactly correct, because sometimes it's 0.1% off. Seems random but should be debugged.
@@ -255,12 +255,15 @@ class TrackDataHandler {
             return (bpmOverflows*128 + bpmRaw)/10.0;
         }
         
-		    //An instance always knows what is happening with the title, so this function returns either the title or information about it.
+        //An instance always knows what is happening with the title, so this function returns either the title or information about it.
         String getTitle() {
             //if (titleDiscovered) return "Fetching title...";
             if (titleIncoming || titleDiscovered) return title;
             if (newLoaded) return "New track loaded...";
             return "";
         }
-        
+
+        String debug() {
+            return String("Deck ").concat(cmId).concat(": Title: ").concat(getTitle().replace("\n", " - ")).concat("  BPM: ").concat(getBPM()).concat("  Time: ").concat(getShortTimeString()).concat("  Tempo d: ").concat(getTempo()).concat("\n");
+        }
 };
