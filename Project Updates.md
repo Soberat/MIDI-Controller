@@ -1,3 +1,28 @@
+# Week 5 - part 2 
+
+Now it's time to use I2S! I2S is short for Inter-IC Sound. It's basically I2C tuned to work better for sound applications.
+
+In our case it is super easy to use I2S - we just use [Teensy Audio Library](https://www.pjrc.com/teensy/gui/index.html?info=AudioOutputI2S) with the included design tool, which for us just uses an USB input and I2S hardware stereo output. Few lines of code and we have a perfectly working native USB Audio interface! We can even change the name that is displayed natively in the operating system. 
+
+![](https://github.com/Soberat/MIDI-Controller/blob/main/Images/Interface.png)
+
+How does it work? Well, using a single I2S interface we are limited to 2 outputs and 2 inputs, and our PCM5102 module only has outputs. However, they work perfectly as we'd expect. Here's a showcase of a testing setup:
+
+![](https://i.imgur.com/gfrQjFE.jpg)
+Do you think this isn't clear and is messy? We agree, so let's take look at a simplified diagram:
+
+![](https://i.imgur.com/f34xTCz.png)
+
+Basically, we play audio on another PC throught our I2S interface, it is received as input by another audio interface, which is passed to another computer. On the second computer we can observe the signal strength:
+
+![](https://i.imgur.com/VKN8x8e.gif)
+
+Now, what is the sound quality of the module? It's good enough for usage with a PC, however it has a couple problems:
+- Noise - interface and our board elements shouldn't share ground, otherwise they will introduce a lot of noise
+- Power - it can easily power some desktop speakers, however when talking professional applications this has a small voltage supply range and high noise. It could be used only as an audio interface with very low output voltages, then it should be amplified by proper audio equipment.
+
+Otherwise, this is exactly what we expected from this module and it seems like a compelling option to be implemented in the final project.
+
 # Week 5
 We applied what we achieved earlier and now we have our track information on our displays :)
 
@@ -31,6 +56,7 @@ There is also a phase meter implemented, which shows how desynchornised tracks a
 # Week 1
 
 During the first week of work on controller we decided to start with the basics - our output elements, such as:
+
 
 - Play/Pause buttons,
 - Cue buttons
