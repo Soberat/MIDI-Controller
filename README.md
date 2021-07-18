@@ -1,6 +1,9 @@
 # MIDI-Controller
 Cortex-M4 based Musical Instrument Digital Interface project
 
+Presentation video (in Polish):
+[Video](https://youtu.be/YKf5AFpwudw)
+
 Authors:
 Mirosław Wiącek - [@Soberat](https://github.com/Soberat)\
 Łukasz Kowalczyk - [@lucas6smith](https://github.com/lucas6smith)
