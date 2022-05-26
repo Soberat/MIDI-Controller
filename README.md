@@ -1,5 +1,6 @@
 # MIDI-Controller
-Cortex-M4 based Musical Instrument Digital Interface project
+Cortex-M4 based Musical Instrument Digital Interface project\
+See [this](https://github.com/Soberat/Control-S1) for an updated version.
 
 Presentation video (in Polish):
 [Video](https://youtu.be/YKf5AFpwudw)
